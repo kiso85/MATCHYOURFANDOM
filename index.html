@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#FBF7EF"/>
+    <text x="50" y="46" font-size="30" text-anchor="middle" fill="#E3A7B4">◍</text>
+    <text x="50" y="72" font-size="13" text-anchor="middle" font-family="sans-serif" fill="#4A463F">追星同好</text>
+  </svg>
+</template>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Yomogi&family=Kosugi+Maru&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+  <style>
+    *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    body{ margin:0; }
+    @keyframes fadeUp{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:translateY(0); } }
+    @keyframes tapeIn{ from{ opacity:0; transform:scale(.8) rotate(var(--r,0deg)); } to{ opacity:.92; transform:scale(1) rotate(var(--r,0deg)); } }
+    input,textarea{ font-family:inherit; outline:none; }
+    input::placeholder,textarea::placeholder{ color:#bdb6a8; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</helmet>
+<div style="min-height:100vh; background-color:#FBF7EF; background-image:radial-gradient(rgba(74,70,63,.045) 1px, transparent 1.4px); background-size:22px 22px; font-family:'LXGW WenKai',serif; color:#4A463F; padding:0 0 60px; display:flex; justify-content:center;">
+  <div style="width:100%; max-width:540px; position:relative;">
+
+    <!-- ============ INTRO ============ -->
+    <sc-if value="{{ isIntro }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:64px 30px 40px; animation:fadeUp .5s ease both;">
+        <div style="text-align:center; margin-bottom:14px;">
+          <span style="font-family:'Zen Maru Gothic'; font-size:12px; letter-spacing:3px; color:#8FB99A; font-weight:500;">MATCH YOUR FANDOM ◍ 找到同担</span>
+        </div>
+
+        <div style="position:relative; padding:34px 18px 30px; text-align:center;">
+          <div style="--r:-7deg; position:absolute; top:-6px; left:30px; height:26px; width:96px; border-radius:1px; background:repeating-linear-gradient(60deg,#E3A7B4 0 7px,#F2CED5 7px 14px); transform:rotate(-7deg); opacity:.92; box-shadow:0 3px 6px rgba(74,70,63,.1); -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent); mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent); animation:tapeIn .6s .15s ease both;"></div>
+          <div style="--r:6deg; position:absolute; top:2px; right:24px; height:24px; width:78px; border-radius:1px; background-color:#BBD6E8; background-image:radial-gradient(#7FA8C9 2px, transparent 2.3px); background-size:11px 11px; transform:rotate(6deg); opacity:.9; box-shadow:0 3px 6px rgba(74,70,63,.1); -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent); mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent); animation:tapeIn .6s .28s ease both;"></div>
+
+          <h1 style="font-size:40px; line-height:1.3; font-weight:700; margin:0; color:#4A463F;">寻找你<br>命定的同担</h1>
+          <p style="font-size:16px; line-height:1.85; color:#8a8276; margin:20px auto 0; max-width:300px;">写下你追过的偶像、CP、综艺和团体，<br>我们帮你找到追星轨迹重合最多的同好。</p>
+        </div>
+
+        <!-- decorative taped cards -->
+        <div style="position:relative; height:188px; margin:18px auto 36px; max-width:360px;">
+          <div style="position:absolute; left:6%; top:24px; width:150px; padding:16px 14px 14px; background:#fff; border-radius:3px; box-shadow:0 8px 22px rgba(74,70,63,.12); transform:rotate(-6deg);">
+            <div style="height:78px; border-radius:2px; background:linear-gradient(135deg,#F3D9DE,#E3A7B4);"></div>
+            <div style="font-family:'Yomogi'; font-size:14px; color:#6f675b; margin-top:8px;">2015 · 入坑那年</div>
+            <div style="position:absolute; top:-11px; left:42px; height:22px; width:70px; background:repeating-linear-gradient(0deg,#A9CDB3 0 6px,#C8DECE 6px 12px); transform:rotate(-3deg); opacity:.9; -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent); mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);"></div>
+          </div>
+          <div style="position:absolute; right:4%; top:8px; width:150px; padding:16px 14px 14px; background:#fff; border-radius:3px; box-shadow:0 8px 22px rgba(74,70,63,.12); transform:rotate(6deg);">
+            <div style="height:78px; border-radius:2px; background:linear-gradient(135deg,#CFE3F0,#97BCD6);"></div>
+            <div style="font-family:'Yomogi'; font-size:14px; color:#6f675b; margin-top:8px;">2021 · 一起追的团</div>
+            <div style="position:absolute; top:-11px; right:38px; height:22px; width:66px; background-color:#F3E2A8; transform:rotate(4deg); opacity:.92; -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent); mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);"></div>
+          </div>
+        </div>
+
+        <button onClick="{{ goForm }}" style="display:block; width:100%; border:none; cursor:pointer; background:#7FB096; color:#fff; font-family:'LXGW WenKai',serif; font-size:19px; font-weight:700; padding:17px; border-radius:14px; box-shadow:0 8px 20px rgba(127,176,150,.4);">开始填我的追星档案 →</button>
+        <p style="text-align:center; font-size:13px; color:#a59d8f; margin-top:18px; line-height:1.7;">🔒 填完留下联系方式，等同担来加你 ·<br>你的联系方式<b style="color:#8a8276;">最多被查看 3 次</b></p>
+        <p style="text-align:center; font-size:12px; color:#bdb6a8; margin-top:20px;"><span onClick="{{ goPrivacy }}" style="cursor:pointer; text-decoration:underline; text-underline-offset:3px;">隐私政策与免责声明</span></p>
+      </div>
+    </sc-if>
+
+    <!-- ============ FORM ============ -->
+    <sc-if value="{{ isForm }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:fadeUp .4s ease both;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:22px 24px 18px; position:sticky; top:0; background:rgba(251,247,239,.92); backdrop-filter:blur(6px); z-index:5;">
+          <span onClick="{{ goIntro }}" style="font-size:15px; color:#9a9387; cursor:pointer;">← 返回</span>
+          <span style="font-family:'Zen Maru Gothic'; font-size:14px; font-weight:500; color:#4A463F;">我的追星档案</span>
+          <span style="font-family:'Zen Maru Gothic'; font-size:12px; color:#bdb6a8;">①／②</span>
+        </div>
+
+        <div style="padding:6px 26px 0;">
+          <!-- Section: records -->
+          <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:4px;">
+            <span style="font-size:21px; font-weight:700;">你追过谁</span>
+            <span style="font-size:13px; color:#a59d8f;">个人 · CP · 团体 · 综艺都可以</span>
+          </div>
+          <sc-if value="{{ hasRecords }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:12px; color:#b3a888; margin-top:-2px;">点已添加的条目可修改</div>
+          </sc-if>
+
+          <sc-if value="{{ hasRecords }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex; flex-direction:column; gap:12px; margin:16px 0 8px;">
+              <sc-for list="{{ records }}" as="r" hint-placeholder-count="0">
+                <div onClick="{{ r.edit }}" style="position:relative; display:flex; gap:14px; background:#fff; border-radius:12px; padding:15px 16px; box-shadow:0 4px 14px rgba(74,70,63,.07); cursor:pointer;">
+                  <div style="flex-shrink:0; width:60px; text-align:center;">
+                    <div style="font-family:'Zen Maru Gothic'; font-size:26px; font-weight:700; line-height:1; color:#4A463F;">{{ r.yearShow }}</div>
+                    <div style="font-family:'Zen Maru Gothic'; font-size:12px; color:#a59d8f; margin-top:3px;">{{ r.monthShow }}</div>
+                    <div style="font-family:'Zen Maru Gothic'; font-size:11px; color:#b3a888; margin-top:2px;">{{ r.endShow }}</div>
+                  </div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span style="font-size:17px; font-weight:700; color:#4A463F;">{{ r.name }}</span>
+                      <span style="font-size:11px; padding:1px 9px; border-radius:20px; color:#fff; background:{{ r.color }};">{{ r.type }}</span>
+                    </div>
+                    <div style="font-size:13px; color:#9a9387; margin-top:5px; line-height:1.5;">{{ r.noteShow }}</div>
+                    <sc-if value="{{ r.editing }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-size:11px; color:#7FB096; margin-top:6px; font-weight:700;">✎ 正在下方编辑这一条</div>
+                    </sc-if>
+                  </div>
+                  <span onClick="{{ r.remove }}" style="position:absolute; top:10px; right:12px; font-size:15px; color:#cabfae; cursor:pointer;">✕</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <!-- add form card -->
+          <div style="position:relative; background:#FFFDF8; border:2px dashed #DCD3C0; border-radius:14px; padding:20px 18px 18px; margin-top:14px;">
+            <div style="position:absolute; top:-12px; left:22px; height:23px; width:74px; background:repeating-linear-gradient(60deg,#E3A7B4 0 7px,#F2CED5 7px 14px); transform:rotate(-4deg); opacity:.92; -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent); mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);"></div>
+
+            <input value="{{ dName }}" onInput="{{ onName }}" placeholder="追的是谁／什么？" style="width:100%; border:none; border-bottom:2px solid #4A463F; background:transparent; font-size:22px; font-weight:700; color:#4A463F; padding:4px 0 10px;" />
+
+            <sc-if value="{{ hasNameSug }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; flex-wrap:wrap; gap:7px; margin-top:10px;">
+                <span style="font-size:12px; color:#a59d8f; align-self:center;">大家也在追：</span>
+                <sc-for list="{{ nameSuggestions }}" as="ns" hint-placeholder-count="0">
+                  <span onClick="{{ ns.pick }}" style="font-size:13px; padding:5px 12px; border-radius:18px; cursor:pointer; background:#F4EFE2; color:#6f675b; border:1px solid #E5DCC9;">{{ ns.label }}</span>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;">
+              <sc-for list="{{ typeChips }}" as="t" hint-placeholder-count="5">
+                <span onClick="{{ t.pick }}" style="font-size:13px; padding:6px 14px; border-radius:20px; cursor:pointer; border:1.5px solid {{ t.color }}; color:{{ t.fg }}; background:{{ t.bg }};">{{ t.label }}</span>
+              </sc-for>
+            </div>
+
+            <div style="margin-top:18px;">
+              <div style="font-size:13px; color:#9a9387; margin-bottom:12px;">追星时间 · <b style="color:#5b8a6b;">起始必填</b> · <span style="color:#a59d8f;">月份可不填</span></div>
+              <!-- start: required -->
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <span style="font-size:13px; color:#9a9387; width:24px;">从</span>
+                <input value="{{ dYear }}" onInput="{{ onYear }}" inputmode="numeric" placeholder="2014" style="width:64px; border:none; border-bottom:2px solid #4A463F; background:transparent; font-family:'Zen Maru Gothic'; font-size:19px; font-weight:700; color:#4A463F; text-align:center; padding:3px 0;" />
+                <span style="font-size:13px; color:#9a9387;">年</span>
+                <input value="{{ dMonth }}" onInput="{{ onMonth }}" inputmode="numeric" placeholder="3" style="width:42px; border:none; border-bottom:2px solid #cabfae; background:transparent; font-family:'Zen Maru Gothic'; font-size:16px; color:#6f675b; text-align:center; padding:3px 0;" />
+                <span style="font-size:13px; color:#9a9387;">月</span>
+              </div>
+              <!-- end: optional / 至今 -->
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:16px;">
+                <span style="font-size:13px; color:#9a9387; width:24px;">到</span>
+                <sc-if value="{{ notEndNow }}" hint-placeholder-val="{{ true }}">
+                  <input value="{{ dEndYear }}" onInput="{{ onEndYear }}" inputmode="numeric" placeholder="2018" style="width:64px; border:none; border-bottom:2px solid #cabfae; background:transparent; font-family:'Zen Maru Gothic'; font-size:19px; font-weight:700; color:#6f675b; text-align:center; padding:3px 0;" />
+                  <span style="font-size:13px; color:#9a9387;">年</span>
+                  <input value="{{ dEndMonth }}" onInput="{{ onEndMonth }}" inputmode="numeric" placeholder="6" style="width:42px; border:none; border-bottom:2px solid #cabfae; background:transparent; font-family:'Zen Maru Gothic'; font-size:16px; color:#6f675b; text-align:center; padding:3px 0;" />
+                  <span style="font-size:13px; color:#9a9387;">月</span>
+                </sc-if>
+                <sc-if value="{{ dEndNow }}" hint-placeholder-val="{{ false }}">
+                  <span style="display:inline-flex; align-items:center; background:#EAF3EC; border:1.5px solid #B9D7C1; border-radius:10px; padding:7px 14px; font-size:14px; color:#5b8a6b; font-weight:700;">至今 · 还在追 ✓</span>
+                </sc-if>
+                <span onClick="{{ toggleEndNow }}" style="font-size:13px; padding:6px 14px; border-radius:20px; cursor:pointer; border:1.5px solid #8FB99A; color:{{ endNowFg }}; background:{{ endNowBg }};">现在</span>
+              </div>
+            </div>
+
+            <textarea value="{{ dNote }}" onInput="{{ onNote }}" placeholder="补充你的偏好、雷点等…" style="width:100%; height:64px; resize:none; border:1.5px solid #DCD3C0; border-radius:10px; background:#fff; font-size:14px; color:#4A463F; padding:12px; margin-top:16px; line-height:1.6;"></textarea>
+
+            <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:13px; color:#E08A6E; margin-top:10px;">{{ error }}</div>
+            </sc-if>
+
+            <button onClick="{{ addRecord }}" style="width:100%; border:none; cursor:pointer; background:#F3ECDC; color:#7a7264; font-size:15px; font-weight:700; padding:12px; border-radius:10px; margin-top:14px; font-family:'LXGW WenKai',serif;">{{ addBtnLabel }}</button>
+            <sc-if value="{{ isEditing }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ cancelEdit }}" style="text-align:center; font-size:13px; color:#a59d8f; cursor:pointer; margin-top:10px;">取消修改</div>
+            </sc-if>
+          </div>
+
+          <sc-if value="{{ hasMatchError }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:13px; color:#E08A6E; margin-top:16px; text-align:center;">{{ matchError }}</div>
+          </sc-if>
+
+          <button onClick="{{ goContact }}" style="display:block; width:100%; border:none; cursor:pointer; background:#7FB096; color:#fff; font-family:'LXGW WenKai',serif; font-size:19px; font-weight:700; padding:17px; border-radius:14px; margin-top:28px; box-shadow:0 8px 20px rgba(127,176,150,.4);">下一步：留下联系方式 →</button>
+          <div style="height:34px;"></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ CONTACT ============ -->
+    <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:fadeUp .4s ease both;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:22px 24px 18px; position:sticky; top:0; background:rgba(251,247,239,.92); backdrop-filter:blur(6px); z-index:5;">
+          <span onClick="{{ goForm }}" style="font-size:15px; color:#9a9387; cursor:pointer;">← 上一步</span>
+          <span style="font-family:'Zen Maru Gothic'; font-size:14px; font-weight:500; color:#4A463F;">留下联系方式</span>
+          <span style="font-family:'Zen Maru Gothic'; font-size:12px; color:#bdb6a8;">②／②</span>
+        </div>
+
+        <div style="padding:6px 26px 0;">
+          <div style="display:flex; align-items:baseline; gap:8px; margin:6px 0 4px;">
+            <span style="font-size:21px; font-weight:700;">留下联系方式</span>
+          </div>
+          <p style="font-size:13px; color:#a59d8f; margin:0 0 18px; line-height:1.7;">合得来的同好会凭它主动来加你 · 最多被查看 <b style="color:#8a8276;">3 次</b>。</p>
+
+          <div style="background:#fff; border-radius:14px; padding:18px; box-shadow:0 4px 14px rgba(74,70,63,.07); display:flex; flex-direction:column; gap:16px;">
+            <input value="{{ nick }}" onInput="{{ onNick }}" placeholder="昵称" style="width:100%; border:none; border-bottom:2px solid #E3DACA; background:transparent; font-size:16px; color:#4A463F; padding:6px 0;" />
+
+            <div>
+              <div style="display:flex; gap:8px; margin-bottom:12px;">
+                <span onClick="{{ pickScopeCn }}" style="font-size:13px; padding:5px 16px; border-radius:20px; cursor:pointer; border:1.5px solid #97BCD6; color:{{ scopeCnFg }}; background:{{ scopeCnBg }};">国内</span>
+                <span onClick="{{ pickScopeOs }}" style="font-size:13px; padding:5px 16px; border-radius:20px; cursor:pointer; border:1.5px solid #97BCD6; color:{{ scopeOsFg }}; background:{{ scopeOsBg }};">海外</span>
+              </div>
+              <sc-if value="{{ isCnScope }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex; gap:12px;">
+                  <select value="{{ province }}" onChange="{{ onProvince }}" style="flex:1; min-width:0; border:none; border-bottom:2px solid #E3DACA; background:transparent; font-size:16px; color:#4A463F; padding:7px 0; font-family:'LXGW WenKai',serif;">
+                    <option value="">选择省份</option>
+                    <sc-for list="{{ provinceOpts }}" as="p" hint-placeholder-count="0"><option value="{{ p }}">{{ p }}</option></sc-for>
+                  </select>
+                  <input value="{{ city }}" onInput="{{ onCity }}" placeholder="城市（如 成都）" style="flex:1; min-width:0; border:none; border-bottom:2px solid #E3DACA; background:transparent; font-size:16px; color:#4A463F; padding:6px 0;" />
+                </div>
+              </sc-if>
+              <sc-if value="{{ isOsScope }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex; gap:12px;">
+                  <select value="{{ country }}" onChange="{{ onCountry }}" style="flex:1; min-width:0; border:none; border-bottom:2px solid #E3DACA; background:transparent; font-size:16px; color:#4A463F; padding:7px 0; font-family:'LXGW WenKai',serif;">
+                    <option value="">选择国家／地区</option>
+                    <sc-for list="{{ countryOpts }}" as="c" hint-placeholder-count="0"><option value="{{ c }}">{{ c }}</option></sc-for>
+                  </select>
+                  <input value="{{ city }}" onInput="{{ onCity }}" placeholder="城市（选填）" style="flex:1; min-width:0; border:none; border-bottom:2px solid #E3DACA; background:transparent; font-size:16px; color:#4A463F; padding:6px 0;" />
+                </div>
+              </sc-if>
+            </div>
+            <div>
+              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+                <sc-for list="{{ contactChips }}" as="c" hint-placeholder-count="4">
+                  <span onClick="{{ c.pick }}" style="font-size:13px; padding:5px 14px; border-radius:20px; cursor:pointer; border:1.5px solid #97BCD6; color:{{ c.fg }}; background:{{ c.bg }};">{{ c.label }}</span>
+                </sc-for>
+              </div>
+              <input value="{{ contact }}" onInput="{{ onContact }}" placeholder="{{ contactPlaceholder }}" style="width:100%; border:none; border-bottom:2px solid #E3DACA; background:transparent; font-size:16px; color:#4A463F; padding:6px 0;" />
+            </div>
+          </div>
+
+          <!-- consent -->
+          <div onClick="{{ toggleConsent }}" style="display:flex; gap:12px; align-items:flex-start; margin-top:20px; cursor:pointer; padding:4px;">
+            <span style="flex-shrink:0; width:22px; height:22px; border-radius:6px; border:2px solid #8FB99A; display:flex; align-items:center; justify-content:center; font-size:14px; color:#fff; margin-top:1px; background:{{ consentBg }};">{{ consentMark }}</span>
+            <span style="font-size:13px; color:#8a8276; line-height:1.7;">我已阅读并同意 <span onClick="{{ goPrivacy }}" style="color:#5b8a6b; cursor:pointer; text-decoration:underline; text-underline-offset:2px;">隐私政策与免责声明</span>，同意公开我留下的联系方式（最多被查看 <b style="color:#5b8a6b;">3 次</b>），让和我重合的同好可以主动来加我。</span>
+          </div>
+
+          <button onClick="{{ goMatches }}" style="display:block; width:100%; border:none; cursor:pointer; background:#7FB096; color:#fff; font-family:'LXGW WenKai',serif; font-size:19px; font-weight:700; padding:17px; border-radius:14px; margin-top:24px; box-shadow:0 8px 20px rgba(127,176,150,.4);">看看谁和我重合 →</button>
+
+          <sc-if value="{{ hasMatchError }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:13px; color:#E08A6E; margin-top:12px; text-align:center;">{{ matchError }}</div>
+          </sc-if>
+          <div style="height:34px;"></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ MATCHES ============ -->
+    <sc-if value="{{ isMatches }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:fadeUp .4s ease both;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:22px 24px 18px; position:sticky; top:0; background:rgba(251,247,239,.92); backdrop-filter:blur(6px); z-index:5;">
+          <span onClick="{{ goForm }}" style="font-size:15px; color:#9a9387; cursor:pointer;">← 改档案</span>
+          <span style="font-family:'Zen Maru Gothic'; font-size:14px; font-weight:500; color:#4A463F;">和我重合的同好</span>
+          <span style="font-family:'Zen Maru Gothic'; font-size:12px; color:#bdb6a8;">②／②</span>
+        </div>
+
+        <div style="padding:6px 26px 0;">
+          <sc-if value="{{ notLoading }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFF6E4; border:1.5px solid #F0DFAE; border-radius:14px; padding:14px 16px; margin:8px 0 18px; display:flex; align-items:center; gap:12px;">
+              <span style="font-size:24px;">🎉</span>
+              <div style="font-size:14px; color:#7a6a3e; line-height:1.6;">恭喜你是第 <b style="font-family:'Zen Maru Gothic'; font-size:19px; color:#C99A3A;">{{ seqShow }}</b> 位用户</div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isSeed }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center; padding:14px 6px 40px; animation:fadeUp .4s ease both;">
+              <div style="font-size:42px;">🌱</div>
+              <h2 style="font-size:22px; font-weight:700; line-height:1.5; margin:14px 0 0;">你是前 100 位<br>种子同好之一</h2>
+              <p style="font-size:14px; color:#8a8276; line-height:1.9; margin:14px auto 0; max-width:330px;">平台刚起步，前 100 名将作为匹配数据库的基础。你的档案已经存好啦，<b style="color:#5b8a6b;">暂时不会为你匹配用户</b> —— 请静候其他同好上线后主动来找你～</p>
+              <button onClick="{{ goForm }}" style="border:none; cursor:pointer; background:#F3ECDC; color:#7a7264; font-size:15px; font-weight:700; padding:12px 26px; border-radius:11px; margin-top:24px; font-family:'LXGW WenKai',serif;">完善我的追星档案</button>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ notSeed }}" hint-placeholder-val="{{ true }}">
+            <div style="position:relative; padding:0 4px 22px;">
+              <h2 style="font-size:25px; font-weight:700; line-height:1.4; margin:0;">为你找到 <span style="color:#7FB096;">{{ matchCount }}</span> 位<br>命定的同担</h2>
+              <p style="font-size:14px; color:#9a9387; margin:10px 0 0; line-height:1.7;">按重合数量排序。先翻翻 TA 的完整档案，合得来再拿走联系方式去加 TA～</p>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ hasMatches }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex; flex-direction:column; gap:18px; padding-bottom:20px;">
+              <sc-for list="{{ matches }}" as="m" hint-placeholder-count="0">
+                <div style="position:relative; background:#fff; border-radius:16px; padding:20px 18px 18px; box-shadow:0 6px 20px rgba(74,70,63,.09);">
+                  <div style="position:absolute; top:-11px; right:20px; height:24px; padding:0 12px; display:flex; align-items:center; border-radius:1px; font-family:'Zen Maru Gothic'; font-size:12px; font-weight:700; color:#6f675b; transform:rotate(3deg); opacity:.96; background:repeating-linear-gradient(0deg,#F3E2A8 0 6px,#F7ECC0 6px 12px); box-shadow:0 2px 5px rgba(74,70,63,.1);">重合 {{ m.score }} 个 ◍</div>
+
+                  <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:46px; height:46px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-family:'Zen Maru Gothic'; font-size:20px; font-weight:700; color:#fff; background:{{ m.avatarBg }};">{{ m.initial }}</div>
+                    <div>
+                      <div style="font-size:18px; font-weight:700; color:#4A463F;">{{ m.nick }}</div>
+                      <div style="display:flex; align-items:center; gap:7px; margin-top:1px;">
+                        <span style="font-size:13px; color:#a59d8f;">📍 {{ m.loc }}</span>
+                        <sc-if value="{{ m.hasLocTag }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px; font-weight:700; color:#5b8a6b; background:#EAF3EC; border-radius:20px; padding:1px 8px;">{{ m.locTag }}</span></sc-if>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="font-size:13px; color:#9a9387; margin:16px 0 9px;">你们都追过 —</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:9px;">
+                    <sc-for list="{{ m.shared }}" as="s" hint-placeholder-count="2">
+                      <span style="position:relative; font-size:14px; font-weight:700; color:#5e574c; padding:6px 14px; background:#F4EFE2; border-radius:8px;">{{ s }}</span>
+                    </sc-for>
+                  </div>
+
+                  <!-- expandable full archive -->
+                  <div onClick="{{ m.toggleExpand }}" style="display:inline-flex; align-items:center; gap:5px; margin-top:16px; cursor:pointer; font-size:13px; color:#8FB99A; font-weight:700;">
+                    <sc-if value="{{ m.collapsed }}" hint-placeholder-val="{{ true }}"><span>看看 TA 的完整追星档案 ▾</span></sc-if>
+                    <sc-if value="{{ m.expanded }}" hint-placeholder-val="{{ false }}"><span>收起档案 ▴</span></sc-if>
+                  </div>
+                  <sc-if value="{{ m.expanded }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex; flex-direction:column; gap:1px; margin-top:12px; background:#EFE9DB; border-radius:10px; overflow:hidden; animation:fadeUp .3s ease both;">
+                      <sc-for list="{{ m.taRecords }}" as="tr" hint-placeholder-count="3">
+                        <div style="background:#FBF7EF; padding:11px 14px;">
+                          <div style="display:flex; align-items:center; gap:8px;">
+                            <span style="font-size:15px; font-weight:700; color:#4A463F;">{{ tr.name }}</span>
+                            <span style="font-size:10px; padding:1px 8px; border-radius:20px; color:#fff; background:{{ tr.color }};">{{ tr.type }}</span>
+                            <sc-if value="{{ tr.isShared }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px; color:#7FB096; font-weight:700;">· 你也追</span></sc-if>
+                          </div>
+                          <sc-if value="{{ tr.hasTime }}" hint-placeholder-val="{{ false }}">
+                            <div style="font-family:'Zen Maru Gothic'; font-size:11px; color:#b3a888; margin-top:3px;">{{ tr.timeShow }}</div>
+                          </sc-if>
+                          <div style="font-size:12px; color:#9a9387; margin-top:3px; line-height:1.5;">{{ tr.note }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                    <div style="font-size:12px; color:#b3a888; margin-top:8px; line-height:1.6;">💡 看看 TA 的雷点和你合不合 —— 不合适可以去加别人</div>
+                  </sc-if>
+
+                  <!-- contact: revealed / can-reveal / locked -->
+                  <sc-if value="{{ m.revealed }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:18px; background:#EAF3EC; border:1.5px solid #B9D7C1; border-radius:12px; padding:14px 16px; animation:fadeUp .35s ease both;">
+                      <div style="font-size:12px; color:#7FB096; font-weight:700; letter-spacing:1px;">TA 的联系方式 · 去主动加 TA</div>
+                      <div style="font-size:17px; font-weight:700; color:#4A463F; margin-top:5px;">{{ m.contactType }} · {{ m.contact }}</div>
+                      <div style="font-size:12px; color:#9a9387; margin-top:6px;">记得说你们都追过{{ m.firstShared }} ~ · 这个联系方式还能被查看 {{ m.remainAfter }} 次</div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ m.canReveal }}" hint-placeholder-val="{{ true }}">
+                    <button onClick="{{ m.reveal }}" style="width:100%; border:none; cursor:pointer; background:#FBEEF1; color:#D98098; font-size:15px; font-weight:700; padding:13px; border-radius:11px; margin-top:18px; font-family:'LXGW WenKai',serif;">♡ 想加 TA · 查看联系方式（还剩 {{ m.remainShow }} 次）</button>
+                  </sc-if>
+                  <sc-if value="{{ m.locked }}" hint-placeholder-val="{{ false }}">
+                    <div style="width:100%; box-sizing:border-box; background:#F2EEE4; color:#b3a888; font-size:14px; font-weight:700; padding:13px; border-radius:11px; margin-top:18px; text-align:center;">🔒 联系方式已被查看 3 次 · 暂不可见</div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ noMatches }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center; padding:30px 20px 50px;">
+              <div style="font-size:40px;">🌱</div>
+              <p style="font-size:16px; color:#8a8276; line-height:1.8; margin:14px 0 0;">还没有和你重合的同好。<br>你的档案已经存下，等同担来找你～</p>
+              <button onClick="{{ goForm }}" style="border:none; cursor:pointer; background:#F3ECDC; color:#7a7264; font-size:15px; font-weight:700; padding:12px 26px; border-radius:11px; margin-top:22px; font-family:'LXGW WenKai',serif;">再加几条追星记录</button>
+            </div>
+          </sc-if>
+
+          <p style="text-align:center; font-size:12px; color:#bdb6a8; padding:14px 0 10px; line-height:1.7;">本页同好为示例数据 · 真实上线后将匹配真实用户</p>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ PRIVACY & DISCLAIMER ============ -->
+    <sc-if value="{{ isPrivacy }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:fadeUp .4s ease both;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:22px 24px 18px; position:sticky; top:0; background:rgba(251,247,239,.92); backdrop-filter:blur(6px); z-index:5;">
+          <span onClick="{{ goBackFromPrivacy }}" style="font-size:15px; color:#9a9387; cursor:pointer;">← 返回</span>
+          <span style="font-family:'Zen Maru Gothic'; font-size:14px; font-weight:500; color:#4A463F;">隐私政策与免责声明</span>
+          <span style="width:30px;"></span>
+        </div>
+
+        <div style="padding:8px 28px 60px;">
+          <p style="font-size:12px; color:#b3a888; margin:0 0 22px;">最近更新：2026 年 6 月</p>
+
+          <h3 style="font-size:17px; font-weight:700; color:#4A463F; margin:0 0 8px;">一、我们收集的信息</h3>
+          <p style="font-size:14px; line-height:1.9; color:#6f675b; margin:0 0 22px;">为完成同好匹配，你主动填写的信息包括：昵称、所在城市、联系方式（账号或主页链接），以及你的追星记录（对象、类型、时间、备注）。我们不会收集你的真实姓名、身份证件、精确位置或通讯录。</p>
+
+          <h3 style="font-size:17px; font-weight:700; color:#4A463F; margin:0 0 8px;">二、信息的用途与公开范围</h3>
+          <p style="font-size:14px; line-height:1.9; color:#6f675b; margin:0 0 22px;">你的信息仅用于为你与追星轨迹重合的同好进行匹配展示。其中，<b style="color:#5b8a6b;">你的联系方式只有在与你存在重合的同好主动查看时才会显示，且每位档案的联系方式最多被查看 3 次</b>，达到上限后自动隐藏，以降低被打扰的风险。你的昵称、城市与追星记录会向与你重合的同好展示。</p>
+
+          <h3 style="font-size:17px; font-weight:700; color:#4A463F; margin:0 0 8px;">三、信息的存储</h3>
+          <p style="font-size:14px; line-height:1.9; color:#6f675b; margin:0 0 22px;">信息保存在第三方云数据库服务中用于实现匹配功能。我们会采取合理措施保护数据安全，但任何互联网传输与存储都无法保证绝对安全，请勿填写你不愿公开的敏感信息。</p>
+
+          <h3 style="font-size:17px; font-weight:700; color:#4A463F; margin:0 0 8px;">四、你的权利</h3>
+          <p style="font-size:14px; line-height:1.9; color:#6f675b; margin:0 0 22px;">你可随时返回档案页修改或删除你填写的任何记录与联系方式。你也可以选择不勾选公开同意，此时将不会进行匹配。如需彻底删除你的全部数据，可通过页面内的联系入口与我们联系。</p>
+
+          <h3 style="font-size:17px; font-weight:700; color:#4A463F; margin:0 0 8px;">五、未成年人</h3>
+          <p style="font-size:14px; line-height:1.9; color:#6f675b; margin:0 0 22px;">若你未满 18 周岁，请在监护人知情并同意的情况下使用本服务，并谨慎填写联系方式。</p>
+
+          <div style="height:1px; background:#E5DCC9; margin:8px 0 22px;"></div>
+
+          <h3 style="font-size:17px; font-weight:700; color:#4A463F; margin:0 0 8px;">六、免责声明</h3>
+          <p style="font-size:14px; line-height:1.9; color:#6f675b; margin:0 0 12px;">1. 本平台仅提供同好信息匹配与展示，不参与用户之间的任何线上或线下交往。用户基于平台信息自行联系、添加好友、见面等行为及由此产生的一切后果，由用户自行承担，平台不承担相应责任。</p>
+          <p style="font-size:14px; line-height:1.9; color:#6f675b; margin:0 0 12px;">2. 平台无法核实用户填写信息的真实性，请你自行甄别、注意保护个人隐私与财产安全，警惕诈骗、骚扰及任何要求转账、借贷等行为。</p>
+          <p style="font-size:14px; line-height:1.9; color:#6f675b; margin:0 0 12px;">3. 严禁将他人联系方式用于骚扰、营销、人肉、二次传播或任何商业及违法用途；一经发现或被举报，我们有权移除相关信息。</p>
+          <p style="font-size:14px; line-height:1.9; color:#6f675b; margin:0 0 12px;">4. 当前页面内展示的部分同好为示例数据，仅用于演示匹配效果。</p>
+          <p style="font-size:14px; line-height:1.9; color:#6f675b; margin:0 0 22px;">5. 在适用法律允许的范围内，平台对因使用或无法使用本服务造成的任何间接、偶然或后果性损失不承担责任。</p>
+
+          <p style="font-size:13px; line-height:1.8; color:#9a9387; margin:0;">继续使用本服务即表示你已阅读、理解并同意以上条款。</p>
+
+          <button onClick="{{ goBackFromPrivacy }}" style="width:100%; border:none; cursor:pointer; background:#F3ECDC; color:#7a7264; font-size:15px; font-weight:700; padding:13px; border-radius:11px; margin-top:28px; font-family:'LXGW WenKai',serif;">我已了解 · 返回</button>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const TYPE_COLORS = {'个人':'#8FB99A','CP':'#E3A7B4','团体':'#97BCD6','综艺':'#E8C45E','影视':'#D69A8F','其他':'#B7A6D4'};
+const TYPES = ['团体','综艺','影视','CP','个人','其他'];
+const CONTACTS = ['微信','小红书','QQ','微博'];
+const AVATARS = ['#8FB99A','#E3A7B4','#97BCD6','#E8C45E','#B7A6D4','#E89A7C'];
+const NOW_YEAR = new Date().getFullYear();
+const norm = s => (s||'').trim().toLowerCase().replace(/\s+/g,'');
+
+// 别名归一：每组写法视为同一对象（可继续补充）
+const ALIAS_GROUPS = [
+  ['时代少年团','tnt','时团','teens in times'],
+  ['tfboys','加油男孩'],
+  ['exo','行星饭'],
+  ['创造营','创','chuang'],
+  ['乘风破浪','浪姐','乘风破浪的姐姐'],
+  ['披荆斩棘','浪哥','披荆斩棘的哥哥'],
+  ['into1','i1'],
+  ['声生不息','声生'],
+  ['王源','源源','roy wang'],
+  ['王俊凯','凯凯','karry'],
+  ['易烊千玺','千玺','jackson yee'],
+];
+const ALIAS_MAP = (()=>{ const m={}; ALIAS_GROUPS.forEach(g=>{ const k=norm(g[0]); g.forEach(a=>{ m[norm(a)]=k; }); }); return m; })();
+// canon：归一后再映射到别名组的代表写法，字母大小写/别名都视为同一人
+const canon = s => { const n = norm(s); return ALIAS_MAP[n] || n; };
+// 录入自动补全的内置热门对象（与库里已有名合并）
+const POPULAR = ['时代少年团','TFBOYS','王源','王俊凯','易烊千玺','马嘉祺','严浩翔','贺峻霖','EXO','边伯贤','INTO1','刘宇','创造营','乘风破浪','披荆斩棘','声生不息','中餐厅'];
+
+// 地区：省份（含直辖市/特别行政区）与海外国家
+const PROVINCES = ['北京','天津','上海','重庆','河北','山西','内蒙古','辽宁','吉林','黑龙江','江苏','浙江','安徽','福建','江西','山东','河南','湖北','湖南','广东','广西','海南','四川','贵州','云南','西藏','陕西','甘肃','青海','宁夏','新疆','台湾','香港','澳门'];
+const COUNTRIES = ['美国','加拿大','英国','澳大利亚','新西兰','日本','韩国','新加坡','马来西亚','泰国','法国','德国','荷兰','意大利','西班牙','瑞士','瑞典','爱尔兰','比利时','奥地利','丹麦','芬兰','挪威','葡萄牙','波兰','俄罗斯','其他'];
+// 位置编码：CN|中国|省|市  或  OS|国家||市
+function buildLoc(scope, country, province, city){
+  city=(city||'').trim();
+  if(scope==='overseas') return 'OS|'+((country||'').trim())+'||'+city;
+  return 'CN|中国|'+((province||'').trim())+'|'+city;
+}
+function parseLoc(str){
+  str=(str||'').trim();
+  if(str.indexOf('|')>=0){
+    const a=str.split('|'); const scope=a[0]==='OS'?'overseas':'cn';
+    const country=a[1]||'', province=a[2]||'', city=a[3]||'';
+    const display = city || (scope==='overseas'?country:province) || '未知';
+    return {scope, country, province, city, display};
+  }
+  return {scope:'cn', country:'中国', province:'', city:str, display: str||'未知'}; // 兼容旧的纯城市
+}
+// 地区接近度：3=同城 2=同省/海外同国 0=其它
+function locScore(a, b){
+  const cityA=norm(a.city), cityB=norm(b.city);
+  if(cityA && cityA===cityB) return 3;
+  if(a.scope==='cn' && b.scope==='cn'){ const p=norm(a.province); if(p && p===norm(b.province)) return 2; }
+  if(a.scope==='overseas' && b.scope==='overseas'){ const c=norm(a.country); if(c && c===norm(b.country)) return 2; }
+  return 0;
+}
+
+// remain = 联系方式还能被查看几次（满 3 次后锁定，防骚扰）
+const SEED = [
+  {nick:'柠檬汽水', loc:'CN|中国|上海|上海', contactType:'小红书', contact:'@柠檬汽水Soda', remain:3, records:[
+    {name:'时代少年团', type:'团体', note:'团魂女孩 · 唯团不站唯不磕cp'},
+    {name:'TFBOYS', type:'团体', note:'十年之约的见证者'},
+    {name:'创造营', type:'综艺', note:'每年准时蹲决赛夜'}
+  ]},
+  {nick:'茉莉味的风', loc:'CN|中国|四川|成都', contactType:'微信', contact:'jasmine_0921', remain:1, records:[
+    {name:'时代少年团', type:'团体', note:'严浩翔个人唯粉'},
+    {name:'王源', type:'个人', note:'源声音乐厅常驻'},
+    {name:'中餐厅', type:'综艺', note:'下饭综艺爱好者'}
+  ]},
+  {nick:'汽水味夏天', loc:'CN|中国|湖北|武汉', contactType:'微信', contact:'soda_summer', remain:3, records:[
+    {name:'时代少年团', type:'团体', note:'磕马严 · 雷其他cp慎入'},
+    {name:'丁程鑫', type:'个人', note:'丁狗女孩本命'},
+    {name:'王源', type:'个人', note:'路人好感'}
+  ]},
+  {nick:'橘子海', loc:'CN|中国|广东|广州', contactType:'QQ', contact:'784512330', remain:2, records:[
+    {name:'INTO1', type:'团体', note:'团粉'},
+    {name:'创造营', type:'综艺', note:'国创女孩'},
+    {name:'刘宇', type:'个人', note:'国风担当本担'}
+  ]},
+  {nick:'小熊软糖', loc:'CN|中国|北京|北京', contactType:'微博', contact:'@软糖不吃糖', remain:0, records:[
+    {name:'时代少年团', type:'团体', note:'马嘉祺唯粉 · 颜粉'},
+    {name:'声生不息', type:'综艺', note:'港乐区福'}
+  ]},
+  {nick:'晚安月亮', loc:'CN|中国|浙江|杭州', contactType:'小红书', contact:'@月亮晚安', remain:3, records:[
+    {name:'EXO', type:'团体', note:'行星饭十年'},
+    {name:'边伯贤', type:'个人', note:'勉唯'},
+    {name:'披荆斩棘', type:'综艺', note:'哥哥们的快乐'}
+  ]},
+];
+
+const SB_URL = 'https://pxdbsitrjzagprhjqgqt.supabase.co';
+const SB_KEY = 'sb_publishable_QTXcGY-xhcxM_QbN65oQFA_z9v-v21A';
+function uid(){ try{ return crypto.randomUUID(); }catch(e){ return 'u-'+Date.now()+'-'+Math.random().toString(36).slice(2); } }
+
+class Component extends DCLogic {
+  state = {
+    screen:'intro',
+    records:[],
+    dName:'', dType:'团体', dYear:'', dMonth:'', dEndYear:'', dEndMonth:'', dEndNow:false, dNote:'', error:'', editIndex:null,
+    nick:'', loc:'', locScope:'cn', province:'', city:'', country:'', contactType:'微信', contact:'', consent:false,
+    matchError:'', revealed:{}, expanded:{},
+    mySeq:0, isSeed:false, knownNames:[],
+    loading:false, dbMatches:[], loadErr:''
+  };
+
+  componentDidMount(){
+    try{
+      const raw = localStorage.getItem('xfan_web_v1');
+      if(raw){
+        const d = JSON.parse(raw);
+        const lp = parseLoc(d.loc||'');
+        this.setState({
+          records:d.records||[], nick:d.nick||'', loc:d.loc||'',
+          locScope: d.locScope || lp.scope || 'cn',
+          province: (d.province!=null?d.province:lp.province) || '',
+          city: (d.city!=null?d.city:lp.city) || '',
+          country: (d.country!=null?d.country:lp.country) || '',
+          contactType:d.contactType||'微信', contact:d.contact||'', consent:!!d.consent
+        });
+      }
+    }catch(e){}
+    this.myId = localStorage.getItem('xfan_uid');
+    if(!this.myId){ this.myId = uid(); try{ localStorage.setItem('xfan_uid', this.myId); }catch(e){} }
+    // 我（按唯一 id）已查看过的联系方式，避免同一人重复消耗次数
+    try{ const rv = JSON.parse(localStorage.getItem('xfan_revealed_'+this.myId)||'{}'); if(rv) this.setState({revealed:rv}); }catch(e){}
+    this.initSb(0);
+  }
+
+  initSb(tries){
+    if(window.supabase && window.supabase.createClient){
+      this.sb = window.supabase.createClient(SB_URL, SB_KEY);
+      this.seedDemo();
+      this.loadKnownNames();
+      return;
+    }
+    if(tries < 50){ setTimeout(()=>this.initSb(tries+1), 150); }
+    else { this.setState({loadErr:'数据库连接库加载失败，请检查网络后刷新'}); }
+  }
+
+  async seedDemo(){
+    try{
+      const r = await this.sb.from('profiles').select('user_id').eq('user_id','demo-1').maybeSingle();
+      if(r && r.data) return;
+      for(let i=0;i<SEED.length;i++){
+        const u = SEED[i], id = 'demo-'+(i+1);
+        await this.sb.from('profiles').insert({user_id:id, nick:u.nick, loc:u.loc, contact_type:u.contactType, contact:u.contact, views_left:u.remain});
+        await this.sb.from('entries').insert(u.records.map(rec=>({user_id:id, name:rec.name, type:rec.type, year:'', month:'', end_year:'', end_month:'', end_now:false, note:rec.note})));
+      }
+    }catch(e){ console.warn('seedDemo', e); }
+  }
+
+  // 拉取库里已有的对象名，用于录入时的自动补全（防止同一对象多种写法）
+  async loadKnownNames(){
+    try{
+      const r = await this.sb.from('entries').select('name');
+      const names = [...new Set(((r&&r.data)||[]).map(x=>(x.name||'').trim()).filter(Boolean))];
+      this.setState({knownNames:names});
+    }catch(e){ /* 静默 */ }
+  }
+
+  persist(extra){
+    const s = {...this.state, ...(extra||{})};
+    try{
+      localStorage.setItem('xfan_web_v1', JSON.stringify({
+        records:s.records, nick:s.nick,
+        loc: buildLoc(s.locScope, s.country, s.province, s.city),
+        locScope:s.locScope, province:s.province, city:s.city, country:s.country,
+        contactType:s.contactType, contact:s.contact, consent:s.consent
+      }));
+    }catch(e){}
+  }
+
+  addRecord = () => {
+    const {dName,dType,dYear,dMonth,dEndYear,dEndMonth,dEndNow,dNote,records,editIndex} = this.state;
+    if(!dName.trim()){ this.setState({error:'先填上追的是谁～'}); return; }
+    if(!dYear.trim()){ this.setState({error:'起始年份要填一下哦'}); return; }
+    const rec = {name:dName.trim(), type:dType, year:dYear.trim(), month:dMonth.trim(),
+      endYear: dEndNow?'':dEndYear.trim(), endMonth: dEndNow?'':dEndMonth.trim(), endNow:dEndNow, note:dNote.trim()};
+    const next = (editIndex!=null) ? records.map((r,idx)=>idx===editIndex?rec:r) : [...records, rec];
+    this.setState({records:next, editIndex:null, dName:'', dType:'团体', dYear:'', dMonth:'', dEndYear:'', dEndMonth:'', dEndNow:false, dNote:'', error:''}, ()=>this.persist());
+  };
+
+  editRecord = (i) => {
+    const r = this.state.records[i]; if(!r) return;
+    this.setState({ editIndex:i, dName:r.name||'', dType:r.type||'团体', dYear:r.year||'', dMonth:r.month||'',
+      dEndYear:r.endYear||'', dEndMonth:r.endMonth||'', dEndNow:!!r.endNow, dNote:r.note||'', error:'' });
+  };
+
+  cancelEdit = () => this.setState({ editIndex:null, dName:'', dType:'团体', dYear:'', dMonth:'', dEndYear:'', dEndMonth:'', dEndNow:false, dNote:'', error:'' });
+
+  toggleEndNow = () => this.setState(p => ({ dEndNow:!p.dEndNow, dEndYear:'', dEndMonth:'', error:'' }));
+  toggleExpand = (i) => this.setState(s => ({expanded:{...s.expanded, [i]:!s.expanded[i]}}));
+
+  removeRecord = (i) => {
+    const next = this.state.records.filter((_,idx)=>idx!==i);
+    this.setState({records:next}, ()=>this.persist());
+  };
+
+  goIntro = () => this.setState({screen:'intro'});
+  goForm = () => this.setState({screen:'form', matchError:''});
+  goContact = () => {
+    if(this.state.records.length===0){ this.setState({matchError:'先至少添加一条追星记录吧～'}); return; }
+    this.setState({screen:'contact', matchError:''});
+    window.scrollTo && window.scrollTo({top:0});
+  };
+  goPrivacy = () => this.setState(s=>({prevScreen:s.screen, screen:'privacy'}));
+  goBackFromPrivacy = () => this.setState(s=>({screen:s.prevScreen||'intro'}));
+  goMatches = async () => {
+    if(this.state.records.length===0){ this.setState({matchError:'先至少添加一条追星记录吧～'}); return; }
+    if(!this.state.consent){ this.setState({matchError:'请先勾选同意公开联系方式，才能开始匹配'}); return; }
+    if(!this.sb){ this.setState({matchError:'数据库还在连接中，稍等一秒再点～'}); return; }
+    this.persist();
+    let myRevealed = {};
+    try{ myRevealed = JSON.parse(localStorage.getItem('xfan_revealed_'+this.myId)||'{}')||{}; }catch(e){}
+    this.setState({screen:'matches', matchError:'', loading:true, loadErr:'', dbMatches:[], revealed:myRevealed, expanded:{}});
+    window.scrollTo && window.scrollTo({top:0});
+    try{
+      await this.saveAll();
+      const seq = await this.ensureSeq();
+      const isSeed = seq <= 100;
+      const list = isSeed ? [] : await this.loadMatches();
+      this.setState({mySeq:seq, isSeed, dbMatches:list, loading:false});
+    }catch(e){
+      this.setState({loading:false, loadErr:'匹配失败：'+String((e&&e.message)||e)});
+    }
+  };
+
+  // 用户序号：按真实（非示例）用户的注册先后，计算一次后本地固定
+  async ensureSeq(){
+    let seq = parseInt(localStorage.getItem('xfan_seq')||'0', 10);
+    if(seq>0) return seq;
+    try{
+      const r = await this.sb.from('profiles').select('user_id', {count:'exact', head:true}).not('user_id','like','demo-%');
+      seq = (r && r.count) ? r.count : 1;
+    }catch(e){ seq = 1; }
+    if(seq<1) seq = 1;
+    try{ localStorage.setItem('xfan_seq', String(seq)); }catch(e){}
+    return seq;
+  }
+
+  async saveAll(){
+    const s = this.state, id = this.myId;
+    await this.sb.from('entries').delete().eq('user_id', id);
+    if(s.records.length){
+      await this.sb.from('entries').insert(s.records.map(r=>({
+        user_id:id, name:(r.name||'').trim(), type:r.type, year:r.year||'', month:r.month||'',
+        end_year:r.endYear||'', end_month:r.endMonth||'', end_now:!!r.endNow, note:r.note||''
+      })));
+    }
+    const prof = {user_id:id, nick:(s.nick||'').trim()||'匿名同好', loc:buildLoc(s.locScope, s.country, s.province, s.city), contact_type:s.contactType, contact:(s.contact||'').trim()};
+    const ex = await this.sb.from('profiles').select('id').eq('user_id', id).maybeSingle();
+    if(ex && ex.data){ await this.sb.from('profiles').update(prof).eq('user_id', id); }
+    else { await this.sb.from('profiles').insert(prof); }
+  }
+
+  async loadMatches(){
+    const s = this.state, id = this.myId;
+    const myNames = [...new Set(s.records.map(r=>(r.name||'').trim()).filter(Boolean))];
+    if(!myNames.length) return [];
+    // 我追过的人（canon 归一：大小写、别名都视为同一人）
+    const myNormSet = new Set(myNames.map(canon).filter(Boolean));
+    // 我「当下在追」的人（canon 归一）
+    const myNowSet = new Set(s.records.filter(r=>r.endNow).map(r=>canon(r.name)).filter(Boolean));
+    const myParsedLoc = parseLoc(buildLoc(s.locScope, s.country, s.province, s.city));
+    const sr = await this.sb.from('entries').select('user_id,name').neq('user_id', id);
+    const rows = ((sr && sr.data) || []).filter(r=> myNormSet.has(canon(r.name)));
+    const sharedMap = {};
+    rows.forEach(r=>{
+      const arr = (sharedMap[r.user_id] = sharedMap[r.user_id] || []);
+      if(!arr.some(n=>canon(n)===canon(r.name))) arr.push(r.name);
+    });
+    const ids = Object.keys(sharedMap);
+    if(!ids.length) return [];
+    const pr = await this.sb.from('profiles').select('*').in('user_id', ids);
+    const er = await this.sb.from('entries').select('*').in('user_id', ids);
+    const profs = (pr && pr.data) || [];
+    const eByU = {};
+    ((er && er.data) || []).forEach(e=>{ (eByU[e.user_id] = eByU[e.user_id] || []).push(e); });
+    return profs.map(p=>{
+      const shared = sharedMap[p.user_id] || [];
+      const recs = eByU[p.user_id]||[];
+      // 对方「当下在追」的人
+      const theirNowSet = new Set(recs.filter(e=>e.end_now).map(e=>canon(e.name)).filter(Boolean));
+      // 双方都「当下在追」的重合人
+      const nowShared = shared.filter(n=> myNowSet.has(canon(n)) && theirNowSet.has(canon(n)));
+      const theirLoc = parseLoc(p.loc);
+      const ls = locScore(myParsedLoc, theirLoc);
+      const locTag = ls===3 ? '同城' : (ls===2 ? (theirLoc.scope==='overseas'?'同国':'同省') : '');
+      return { uid:p.user_id, nick:p.nick||'匿名同好', loc:theirLoc.display, contactType:p.contact_type, contact:p.contact,
+        viewsLeft: (p.views_left==null?3:p.views_left), shared, score:shared.length,
+        nowScore:nowShared.length, locRank:ls, locTag, hasLocTag: !!locTag, recs };
+    }).filter(m=>m.score>0).sort((a,b)=>
+      // 1. 当下在追同一人多的优先  2. 同城>同省/同国  3. 历史重合度高的优先
+      (b.nowScore - a.nowScore) || (b.locRank - a.locRank) || (b.score - a.score)
+    );
+  }
+
+  reveal = async (targetId) => {
+    if(!this.sb) return;
+    // 同一访客（唯一 id）已查看过，直接展示，不再消耗次数
+    if(this.state.revealed[targetId]) return;
+    try{
+      const r = await this.sb.from('profiles').select('views_left').eq('user_id', targetId).maybeSingle();
+      const left = (r && r.data) ? r.data.views_left : 0;
+      if(left<=0){ this.setState(s=>({dbMatches:s.dbMatches.map(m=>m.uid===targetId?{...m,viewsLeft:0}:m)})); return; }
+      await this.sb.from('profiles').update({views_left:left-1}).eq('user_id', targetId);
+      this.setState(s=>{
+        const revealed = {...s.revealed,[targetId]:true};
+        try{ localStorage.setItem('xfan_revealed_'+this.myId, JSON.stringify(revealed)); }catch(e){}
+        return { revealed, dbMatches:s.dbMatches.map(m=>m.uid===targetId?{...m,viewsLeft:left-1}:m) };
+      });
+    }catch(e){ console.warn('reveal', e); }
+  };
+
+  toggleExpand = (targetId) => this.setState(s => ({expanded:{...s.expanded, [targetId]:!s.expanded[targetId]}}));
+
+  renderVals(){
+    const s = this.state;
+    const endKey = (r)=> (r.endNow || !((r.endYear||'').trim())) ? Infinity
+      : (parseInt(r.endYear,10)||0)*100 + (parseInt(r.endMonth,10)||0);
+    const startKey = (r)=> (parseInt(r.year,10)||0)*100 + (parseInt(r.month,10)||0);
+    const order = s.records.map((r,i)=>i).sort((a,b)=>{
+      const ra=s.records[a], rb=s.records[b];
+      return (endKey(rb)-endKey(ra)) || (startKey(rb)-startKey(ra));
+    });
+    const records = order.map(i=>{ const r=s.records[i]; return {
+      name:r.name, type:r.type, color:TYPE_COLORS[r.type]||'#9a9387',
+      yearShow: r.year || '—',
+      monthShow: r.month ? (r.month+'月') : '',
+      endShow: r.endNow ? '—至今' : (r.endYear ? ('—'+r.endYear+(r.endMonth?('.'+r.endMonth):'')) : ''),
+      noteShow: r.note || '还没写下回忆…',
+      editing: s.editIndex===i,
+      edit: ()=>this.editRecord(i),
+      remove: (e)=>{ if(e&&e.stopPropagation) e.stopPropagation(); this.removeRecord(i); }
+    };});
+
+    const typed = canon(s.dName);
+    let nameSuggestions = [];
+    if(typed){
+      const pool = [...new Set([...(s.knownNames||[]), ...POPULAR])];
+      nameSuggestions = pool.filter(n=>{ const c=canon(n); return c!==typed && c.indexOf(typed)>=0; })
+        .slice(0,6).map(n=>({ label:n, pick:()=>this.setState({dName:n, error:''}) }));
+    }
+
+    const typeChips = TYPES.map(t=>{
+      const sel = t===s.dType, c = TYPE_COLORS[t];
+      return { label:t, color:c, pick:()=>this.setState({dType:t}),
+        fg: sel?'#fff':c, bg: sel?c:'transparent' };
+    });
+
+    const contactChips = CONTACTS.map(c=>{
+      const sel = c===s.contactType;
+      return { label:c, pick:()=>this.setState({contactType:c}, ()=>this.persist()),
+        fg: sel?'#fff':'#5e7e96', bg: sel?'#97BCD6':'transparent' };
+    });
+
+    const matches = s.dbMatches.map((m,i)=>{
+      const rev = !!s.revealed[m.uid];
+      const remain = m.viewsLeft;
+      const exp = !!s.expanded[m.uid];
+      return {
+        nick:m.nick, loc:m.loc, score:m.score, shared:m.shared,
+        locTag:m.locTag, hasLocTag:m.hasLocTag,
+        firstShared: m.shared[0]||'TA',
+        initial: (m.nick||'?').slice(0,1),
+        avatarBg: AVATARS[i % AVATARS.length],
+        contactType:m.contactType, contact:m.contact,
+        revealed: rev,
+        canReveal: !rev && remain>0,
+        locked: !rev && remain<=0,
+        remainShow: remain,
+        remainAfter: Math.max(remain-1,0),
+        taRecords: (m.recs||[]).map(r=>{
+          const st = (r.year||'') + (r.month?('.'+r.month):'');
+          const en = r.end_now ? '至今' : ((r.end_year||'') + (r.end_month?('.'+r.end_month):''));
+          const timeShow = st ? (en ? (st+' — '+en) : st) : '';
+          return { name:r.name, type:r.type, color:TYPE_COLORS[r.type]||'#9a9387',
+            note:r.note, timeShow, hasTime: !!timeShow, isShared: m.shared.some(sn=>canon(sn)===canon(r.name)) };
+        }),
+        expanded: exp, collapsed: !exp,
+        toggleExpand: ()=>this.toggleExpand(m.uid),
+        reveal: ()=>this.reveal(m.uid)
+      };
+    });
+
+    return {
+      isIntro: s.screen==='intro',
+      isForm: s.screen==='form',
+      isContact: s.screen==='contact',
+      isMatches: s.screen==='matches',
+      isPrivacy: s.screen==='privacy',
+      goPrivacy:this.goPrivacy, goBackFromPrivacy:this.goBackFromPrivacy,
+      goContact:this.goContact,
+      records, hasRecords: records.length>0,
+      typeChips, contactChips,
+      nameSuggestions, hasNameSug: nameSuggestions.length>0,
+      dName:s.dName, dYear:s.dYear, dMonth:s.dMonth, dNote:s.dNote,
+      dEndYear:s.dEndYear, dEndMonth:s.dEndMonth,
+      dEndNow:s.dEndNow, notEndNow: !s.dEndNow, toggleEndNow:this.toggleEndNow,
+      endNowFg: s.dEndNow?'#fff':'#5b8a6b', endNowBg: s.dEndNow?'#8FB99A':'transparent',
+      onName:e=>this.setState({dName:e.target.value, error:''}),
+      onYear:e=>this.setState({dYear:e.target.value.replace(/[^0-9]/g,''), error:''}),
+      onMonth:e=>this.setState({dMonth:e.target.value.replace(/[^0-9]/g,'')}),
+      onEndYear:e=>this.setState({dEndYear:e.target.value.replace(/[^0-9]/g,'')}),
+      onEndMonth:e=>this.setState({dEndMonth:e.target.value.replace(/[^0-9]/g,'')}),
+      onNote:e=>this.setState({dNote:e.target.value}),
+      addRecord:this.addRecord,
+      isEditing: s.editIndex!=null,
+      notEditing: s.editIndex==null,
+      addBtnLabel: s.editIndex!=null ? '✓ 保存修改' : '＋ 添加这一条',
+      cancelEdit:this.cancelEdit,
+      error:s.error, hasError: !!s.error,
+      nick:s.nick, loc:s.loc, contact:s.contact,
+      onNick:e=>this.setState({nick:e.target.value}, ()=>this.persist()),
+      onLoc:e=>this.setState({loc:e.target.value}, ()=>this.persist()),
+      locScope:s.locScope, isCnScope: s.locScope!=='overseas', isOsScope: s.locScope==='overseas',
+      pickScopeCn:()=>this.setState({locScope:'cn'}, ()=>this.persist()),
+      pickScopeOs:()=>this.setState({locScope:'overseas'}, ()=>this.persist()),
+      scopeCnFg: s.locScope!=='overseas'?'#fff':'#5e7e96', scopeCnBg: s.locScope!=='overseas'?'#97BCD6':'transparent',
+      scopeOsFg: s.locScope==='overseas'?'#fff':'#5e7e96', scopeOsBg: s.locScope==='overseas'?'#97BCD6':'transparent',
+      province:s.province, city:s.city, country:s.country,
+      provinceOpts:PROVINCES, countryOpts:COUNTRIES,
+      onProvince:e=>this.setState({province:e.target.value}, ()=>this.persist()),
+      onCountry:e=>this.setState({country:e.target.value}, ()=>this.persist()),
+      onCity:e=>this.setState({city:e.target.value}, ()=>this.persist()),
+      onContact:e=>this.setState({contact:e.target.value}, ()=>this.persist()),
+      consent:s.consent, toggleConsent:()=>this.setState(p=>({consent:!p.consent}), ()=>this.persist()),
+      contactPlaceholder: ({'微信':'你的微信号（非昵称）','小红书':'你的小红书号（数字/字母 ID）','QQ':'你的 QQ 号码','微博':'你的微博 @用户名'}[s.contactType]) || '你的账号 ID／主页链接',
+      contactHint: ({
+        '微信':'微信：填「微信号」（我→个人名片里的微信号），不是微信昵称。',
+        '小红书':'小红书：填「小红书号」（主页「小红书号：」后的那串数字/字母），不要填昵称。',
+        'QQ':'QQ：填 QQ 号码，不要填 QQ 昵称。',
+        '微博':'微博：填「@」后面的唯一用户名，不要填可改的显示昵称。'
+      }[s.contactType]) || '填平台内唯一、可被搜索到的账号 ID。',
+      consentBg: s.consent?'#8FB99A':'transparent',
+      consentMark: s.consent?'✓':'',
+      goIntro:this.goIntro, goForm:this.goForm, goMatches:this.goMatches,
+      matchError:s.matchError, hasMatchError: !!s.matchError,
+      matches, matchCount:matches.length,
+      mySeq:s.mySeq, seqShow:s.mySeq, isSeed:s.isSeed, notSeed: !s.isSeed,
+      loading: s.loading, notLoading: !s.loading,
+      loadErr: s.loadErr, hasLoadErr: !!s.loadErr,
+      hasMatches: !s.loading && !s.loadErr && !s.isSeed && matches.length>0,
+      noMatches: !s.loading && !s.loadErr && !s.isSeed && matches.length===0
+    };
+  }
+}
+</script>
+</body>
+</html>
