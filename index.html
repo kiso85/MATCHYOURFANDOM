@@ -3,6 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>追星同好 · 找到命定的同担</title>
+<meta name="description" content="写下你追过的偶像、CP、综艺和团体，找到追星轨迹重合最多的同好。">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="追星同好 · 找到命定的同担">
+<meta property="og:description" content="写下你追过的偶像、CP、综艺和团体，找到追星轨迹重合最多的同好。">
+<meta property="og:url" content="https://kiso85.github.io/MATCHYOURFANDOM/">
+<meta property="og:image" content="https://kiso85.github.io/MATCHYOURFANDOM/share.png">
+<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="追星同好 · 找到命定的同担">
+<meta name="twitter:description" content="写下你追过的偶像、CP、综艺和团体，找到追星轨迹重合最多的同好。">
+<meta name="twitter:image" content="https://kiso85.github.io/MATCHYOURFANDOM/share.png">
 <script src="./support.js"></script>
 <template id="__bundler_thumbnail">
   <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -15,7 +29,6 @@
 <body>
 <x-dc>
 <helmet>
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Kosugi+Maru&display=swap" rel="stylesheet">
@@ -528,22 +541,40 @@ class Component extends DCLogic {
         });
       }
     }catch(e){}
-    this.myId = localStorage.getItem('xfan_uid');
-    if(!this.myId){ this.myId = uid(); try{ localStorage.setItem('xfan_uid', this.myId); }catch(e){} }
-    // 我（按唯一 id）已查看过的联系方式，避免同一人重复消耗次数
-    try{ const rv = JSON.parse(localStorage.getItem('xfan_revealed_'+this.myId)||'{}'); if(rv) this.setState({revealed:rv}); }catch(e){}
     this.initSb(0);
   }
 
   initSb(tries){
     if(window.supabase && window.supabase.createClient){
       this.sb = window.supabase.createClient(SB_URL, SB_KEY);
-      this.seedDemo();
-      this.loadKnownNames();
+      this.initAuth();
       return;
     }
     if(tries < 50){ setTimeout(()=>this.initSb(tries+1), 150); }
     else { this.setState({loadErr:'数据库连接库加载失败，请检查网络后刷新'}); }
+  }
+
+  // 匿名登录：给每台设备一个 Supabase 可信身份，作为 user_id（RLS 据此判断归属）
+  async initAuth(){
+    try{
+      let { data } = await this.sb.auth.getSession();
+      let session = data && data.session;
+      if(!session){
+        const r = await this.sb.auth.signInAnonymously();
+        if(r.error) throw r.error;
+        session = r.data && r.data.session;
+      }
+      this.myId = session && session.user ? session.user.id : null;
+    }catch(e){
+      console.warn('anon auth failed', e);
+      this.myId = localStorage.getItem('xfan_uid') || uid();
+      try{ localStorage.setItem('xfan_uid', this.myId); }catch(_){}
+    }
+    if(!this.myId){ this.myId = localStorage.getItem('xfan_uid') || uid(); }
+    // 恢复我已查看过的（避免同一访客重复消耗次数）
+    try{ const rv = JSON.parse(localStorage.getItem('xfan_revealed_'+this.myId)||'{}'); if(rv) this.setState({revealed:rv}); }catch(e){}
+    this.seedDemo();
+    this.loadKnownNames();
   }
 
   async seedDemo(){
@@ -617,7 +648,7 @@ class Component extends DCLogic {
   goMatches = async () => {
     if(this.state.records.length===0){ this.setState({matchError:'先至少添加一条追星记录吧～'}); return; }
     if(!this.state.consent){ this.setState({matchError:'请先勾选同意公开联系方式，才能开始匹配'}); return; }
-    if(!this.sb){ this.setState({matchError:'数据库还在连接中，稍等一秒再点～'}); return; }
+    if(!this.sb || !this.myId){ this.setState({matchError:'正在连接，请稍等一秒再点～'}); return; }
     this.persist();
     let myRevealed = {};
     try{ myRevealed = JSON.parse(localStorage.getItem('xfan_revealed_'+this.myId)||'{}')||{}; }catch(e){}
@@ -628,7 +659,7 @@ class Component extends DCLogic {
       const seq = await this.ensureSeq();
       const isSeed = seq <= 100;
       const list = isSeed ? [] : await this.loadMatches();
-      this.setState({mySeq:seq, isSeed, dbMatches:list, loading:false});
+      this.setState({mySeq:seq, isSeed, dbMatches:list, loading:false}, ()=>this.hydrateRevealed());
     }catch(e){
       this.setState({loading:false, loadErr:'匹配失败：'+String((e&&e.message)||e)});
     }
@@ -680,7 +711,7 @@ class Component extends DCLogic {
     });
     const ids = Object.keys(sharedMap);
     if(!ids.length) return [];
-    const pr = await this.sb.from('profiles').select('*').in('user_id', ids);
+    const pr = await this.sb.from('profiles').select('user_id,nick,loc,views_left').in('user_id', ids);
     const er = await this.sb.from('entries').select('*').in('user_id', ids);
     const profs = (pr && pr.data) || [];
     const eByU = {};
@@ -695,7 +726,7 @@ class Component extends DCLogic {
       const theirLoc = parseLoc(p.loc);
       const ls = locScore(myParsedLoc, theirLoc);
       const locTag = ls===3 ? '同城' : (ls===2 ? (theirLoc.scope==='overseas'?'同国':'同省') : '');
-      return { uid:p.user_id, nick:p.nick||'匿名同好', loc:theirLoc.display, contactType:p.contact_type, contact:p.contact,
+      return { uid:p.user_id, nick:p.nick||'匿名同好', loc:theirLoc.display, contactType:null, contact:null,
         viewsLeft: (p.views_left==null?3:p.views_left), shared, score:shared.length,
         nowScore:nowShared.length, locRank:ls, locTag, hasLocTag: !!locTag, recs };
     }).filter(m=>m.score>0).sort((a,b)=>
@@ -705,21 +736,36 @@ class Component extends DCLogic {
   }
 
   reveal = async (targetId) => {
-    if(!this.sb) return;
-    // 同一访客（唯一 id）已查看过，直接展示，不再消耗次数
-    if(this.state.revealed[targetId]) return;
+    if(!this.sb || !this.myId) return;
+    // 已查看且已拿到联系方式：直接展示，不再请求
+    const existing = this.state.dbMatches.find(m=>m.uid===targetId);
+    if(this.state.revealed[targetId] && existing && existing.contact) return;
     try{
-      const r = await this.sb.from('profiles').select('views_left').eq('user_id', targetId).maybeSingle();
-      const left = (r && r.data) ? r.data.views_left : 0;
-      if(left<=0){ this.setState(s=>({dbMatches:s.dbMatches.map(m=>m.uid===targetId?{...m,viewsLeft:0}:m)})); return; }
-      await this.sb.from('profiles').update({views_left:left-1}).eq('user_id', targetId);
-      this.setState(s=>{
-        const revealed = {...s.revealed,[targetId]:true};
-        try{ localStorage.setItem('xfan_revealed_'+this.myId, JSON.stringify(revealed)); }catch(e){}
-        return { revealed, dbMatches:s.dbMatches.map(m=>m.uid===targetId?{...m,viewsLeft:left-1}:m) };
-      });
+      // 通过数据库安全函数获取联系方式（服务端按规则扣减、防刷、防重复）
+      const { data, error } = await this.sb.rpc('reveal_contact', { target: targetId });
+      if(error) throw error;
+      const row = Array.isArray(data) ? data[0] : data;
+      if(row && row.contact){
+        this.setState(s=>{
+          const revealed = {...s.revealed,[targetId]:true};
+          try{ localStorage.setItem('xfan_revealed_'+this.myId, JSON.stringify(revealed)); }catch(e){}
+          return { revealed, dbMatches:s.dbMatches.map(m=>m.uid===targetId?{...m, contactType:row.contact_type, contact:row.contact, viewsLeft:(row.views_left==null?0:row.views_left)}:m) };
+        });
+      } else {
+        // 已被查看满 3 次，锁定
+        this.setState(s=>({dbMatches:s.dbMatches.map(m=>m.uid===targetId?{...m,viewsLeft:0}:m)}));
+      }
     }catch(e){ console.warn('reveal', e); }
   };
+
+  // 进入匹配页时，把我之前已解锁的联系方式重新取回展示（不再扣减次数）
+  async hydrateRevealed(){
+    const ids = Object.keys(this.state.revealed||{});
+    for(const id of ids){
+      const m = this.state.dbMatches.find(x=>x.uid===id);
+      if(m && !m.contact){ await this.reveal(id); }
+    }
+  }
 
   toggleExpand = (targetId) => this.setState(s => ({expanded:{...s.expanded, [targetId]:!s.expanded[targetId]}}));
 
