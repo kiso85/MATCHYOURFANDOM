@@ -558,14 +558,13 @@ class Component extends DCLogic {
   // 匿名登录：给每台设备一个 Supabase 可信身份，作为 user_id（RLS 据此判断归属）
   async initAuth(){
     try{
-      let { data } = await this.sb.auth.getSession();
-      let session = data && data.session;
-      if(!session){
+      let { data:{ user } } = await this.sb.auth.getUser();
+      if(!user){
         const r = await this.sb.auth.signInAnonymously();
         if(r.error) throw r.error;
-        session = r.data && r.data.session;
+        user = r.data && r.data.user;
       }
-      this.myId = session && session.user ? session.user.id : null;
+      this.myId = user ? user.id : null;
     }catch(e){
       console.warn('anon auth failed', e);
       this.myId = localStorage.getItem('xfan_uid') || uid();
