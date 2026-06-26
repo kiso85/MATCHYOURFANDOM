@@ -295,6 +295,13 @@
             </div>
           </sc-if>
 
+          <sc-if value="{{ viewerBlocked }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FBF3E4; border:1.5px solid #EFE0BE; border-radius:14px; padding:15px 16px; margin:0 0 18px; display:flex; gap:11px;">
+              <span style="flex-shrink:0; font-size:18px; line-height:1.4;">💌</span>
+              <div style="font-size:13px; color:#8a7a52; line-height:1.8;"><b style="color:#7a6a3e;">你已查看了 3 位同好的联系方式，达到上限啦。</b>先去添加这几位吧～如果暂时没有特别合适的，可以<b style="color:#5b8a6b;">过段时间再来看看</b>（会有新同好加入），或者<b style="color:#5b8a6b;">回去完善你的追星档案</b>，让匹配更准、也更容易被同好找到。</div>
+            </div>
+          </sc-if>
+
           <sc-if value="{{ hasMatches }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex; flex-direction:column; gap:18px; padding-bottom:20px;">
               <sc-for list="{{ matches }}" as="m" hint-placeholder-count="0">
@@ -522,7 +529,7 @@ class Component extends DCLogic {
     dName:'', dType:'团体', dYear:'', dMonth:'', dEndYear:'', dEndMonth:'', dEndNow:false, dNote:'', error:'', editIndex:null,
     nick:'', loc:'', locScope:'cn', province:'', city:'', country:'', contactType:'微信', contact:'', consent:false,
     matchError:'', revealed:{}, expanded:{},
-    mySeq:0, isSeed:false, knownNames:[],
+    mySeq:0, isSeed:false, viewerBlocked:false, knownNames:[],
     loading:false, dbMatches:[], loadErr:''
   };
 
@@ -651,7 +658,7 @@ class Component extends DCLogic {
     this.persist();
     let myRevealed = {};
     try{ myRevealed = JSON.parse(localStorage.getItem('xfan_revealed_'+this.myId)||'{}')||{}; }catch(e){}
-    this.setState({screen:'matches', matchError:'', loading:true, loadErr:'', dbMatches:[], revealed:myRevealed, expanded:{}});
+    this.setState({screen:'matches', matchError:'', loading:true, loadErr:'', dbMatches:[], revealed:myRevealed, expanded:{}, viewerBlocked:false});
     window.scrollTo && window.scrollTo({top:0});
     try{
       await this.saveAll();
@@ -742,18 +749,25 @@ class Component extends DCLogic {
     const existing = this.state.dbMatches.find(m=>m.uid===targetId);
     if(this.state.revealed[targetId] && existing && existing.contact) return;
     try{
-      // 通过数据库安全函数获取联系方式（服务端按规则扣减、防刷、防重复）
+      // 通过数据库安全函数获取联系方式（服务端按规则扣减、防刷、防重复、限制查看方总数）
       const { data, error } = await this.sb.rpc('reveal_contact', { target: targetId });
       if(error) throw error;
       const row = Array.isArray(data) ? data[0] : data;
-      if(row && row.contact){
+      const status = row && row.status ? row.status : 'error';
+      if(status==='ok'){
+        const vl = row.views_left!=null ? Number(row.views_left) : 0;
+        const hasContact = !!(row.contact!=null && String(row.contact).trim()!=='');
         this.setState(s=>{
           const revealed = {...s.revealed,[targetId]:true};
           try{ localStorage.setItem('xfan_revealed_'+this.myId, JSON.stringify(revealed)); }catch(e){}
-          return { revealed, dbMatches:s.dbMatches.map(m=>m.uid===targetId?{...m, contactType:row.contact_type, contact:row.contact, viewsLeft:(row.views_left==null?0:row.views_left)}:m) };
+          return { revealed, viewerBlocked:false,
+            dbMatches:s.dbMatches.map(m=>m.uid===targetId?{...m, contactType:(row.contact_type||''), contact: hasContact?row.contact:'（对方暂未填写联系方式）', viewsLeft:vl}:m) };
         });
+      } else if(status==='viewer_quota'){
+        // 查看方已用满自己的 3 次查看额度
+        this.setState({viewerBlocked:true});
       } else {
-        // 已被查看满 3 次，锁定
+        // 对方联系方式已被查看满 3 次，锁定
         this.setState(s=>({dbMatches:s.dbMatches.map(m=>m.uid===targetId?{...m,viewsLeft:0}:m)}));
       }
     }catch(e){ console.warn('reveal', e); }
@@ -894,6 +908,7 @@ class Component extends DCLogic {
       matchError:s.matchError, hasMatchError: !!s.matchError,
       matches, matchCount:matches.length,
       mySeq:s.mySeq, seqShow:s.mySeq, isSeed:s.isSeed, notSeed: !s.isSeed,
+      viewerBlocked: s.viewerBlocked,
       loading: s.loading, notLoading: !s.loading,
       loadErr: s.loadErr, hasLoadErr: !!s.loadErr,
       hasMatches: !s.loading && !s.loadErr && !s.isSeed && matches.length>0,
