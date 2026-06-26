@@ -573,7 +573,6 @@ class Component extends DCLogic {
     if(!this.myId){ this.myId = localStorage.getItem('xfan_uid') || uid(); }
     // 恢复我已查看过的（避免同一访客重复消耗次数）
     try{ const rv = JSON.parse(localStorage.getItem('xfan_revealed_'+this.myId)||'{}'); if(rv) this.setState({revealed:rv}); }catch(e){}
-    this.seedDemo();
     this.loadKnownNames();
   }
 
