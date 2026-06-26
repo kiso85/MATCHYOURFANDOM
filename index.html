@@ -282,8 +282,8 @@
           <sc-if value="{{ isSeed }}" hint-placeholder-val="{{ false }}">
             <div style="text-align:center; padding:14px 6px 40px; animation:fadeUp .4s ease both;">
               <div style="font-size:42px;">🌱</div>
-              <h2 style="font-size:22px; font-weight:700; line-height:1.5; margin:14px 0 0;">你是前 100 位<br>种子同好之一</h2>
-              <p style="font-size:14px; color:#8a8276; line-height:1.9; margin:14px auto 0; max-width:330px;">平台刚起步，前 100 名将作为匹配数据库的基础。你的档案已经存好啦，<b style="color:#5b8a6b;">暂时不会为你匹配用户</b> —— 请静候其他同好上线后主动来找你～</p>
+              <h2 style="font-size:22px; font-weight:700; line-height:1.5; margin:14px 0 0;">你是前 66 位<br>种子同好之一</h2>
+              <p style="font-size:14px; color:#8a8276; line-height:1.9; margin:14px auto 0; max-width:330px;">平台刚起步，前 66 名将作为匹配数据库的基础。你的档案已经存好啦，<b style="color:#5b8a6b;">暂时不会为你匹配用户</b> —— 请静候其他同好上线后主动来找你～</p>
               <button onClick="{{ goForm }}" style="border:none; cursor:pointer; background:#F3ECDC; color:#7a7264; font-size:15px; font-weight:700; padding:12px 26px; border-radius:11px; margin-top:24px; font-family:'LXGW WenKai',serif;">完善我的追星档案</button>
             </div>
           </sc-if>
@@ -434,7 +434,7 @@ const TYPES = ['团体','综艺','影视','CP','个人','其他'];
 const CONTACTS = ['微信','小红书','QQ','微博'];
 const AVATARS = ['#8FB99A','#E3A7B4','#97BCD6','#E8C45E','#B7A6D4','#E89A7C'];
 const NOW_YEAR = new Date().getFullYear();
-const SEED_LIMIT = 100; // 前 N 名作为种子用户，不展示匹配
+const SEED_LIMIT = 66; // 前 N 名作为种子用户，不展示匹配
 const norm = s => (s||'').trim().toLowerCase().replace(/\s+/g,'');
 
 // 别名归一：每组写法视为同一对象（可继续补充）
