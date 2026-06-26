@@ -895,10 +895,10 @@ class Component extends DCLogic {
       onCity:e=>this.setState({city:e.target.value}, ()=>this.persist()),
       onContact:e=>this.setState({contact:e.target.value}, ()=>this.persist()),
       consent:s.consent, toggleConsent:()=>this.setState(p=>({consent:!p.consent}), ()=>this.persist()),
-      contactPlaceholder: ({'微信':'你的微信号（非昵称）','小红书':'你的小红书号（数字/字母 ID）','QQ':'你的 QQ 号码','微博':'你的微博 @用户名'}[s.contactType]) || '你的账号 ID／主页链接',
+      contactPlaceholder: ({'微信':'你的微信号（非昵称）','小红书':'你的小红书号（数字 ID）','QQ':'你的 QQ 号码','微博':'你的微博 @用户名'}[s.contactType]) || '你的账号 ID／主页链接',
       contactHint: ({
         '微信':'微信：填「微信号」（我→个人名片里的微信号），不是微信昵称。',
-        '小红书':'小红书：填「小红书号」（主页「小红书号：」后的那串数字/字母），不要填昵称。',
+        '小红书':'小红书：填「小红书号」（主页「小红书号：」后的那串数字），不要填昵称。',
         'QQ':'QQ：填 QQ 号码，不要填 QQ 昵称。',
         '微博':'微博：填「@」后面的唯一用户名，不要填可改的显示昵称。'
       }[s.contactType]) || '填平台内唯一、可被搜索到的账号 ID。',
